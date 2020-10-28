@@ -3,8 +3,11 @@ var NETUSE;
 var TYPE;
 var NETWORK;
 var paragraph;
+var timedrag;
 
 function setup(){
+  frameRate(30);
+  timedrag = 0;
   paragraph = createInput("Press any key to get the command here");
   paragraph.size(windowWidth);
   controller = new Control();
@@ -24,6 +27,10 @@ function windowResized() {
 }
 
 function mousePressed(){
+  if (mouseButton == RIGHT){
+    controller.state = 0;
+    return;
+  }
   if (mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) return;
   let counter;
   let overlay = false;
@@ -63,7 +70,21 @@ function mousePressed(){
   if (!overlay) NETWORK.addNode(NETWORK.nodes.length,'',1,mouseX,mouseY);
 }
 
+function mouseReleased(){
+  timedrag = 0;
+}
+
+function mouseDragged(){
+  timedrag += 1;
+  if (timedrag > 8)
+    controller.state = 0;
+}
+
 function keyPressed(){
+  if (key == ' '){
+    controller.state = 0;
+    return;
+  }
   let ans = "GraphName.add_edges_from([";
   let counter;
   for (counter = 0; counter < NETWORK.edges.length; counter++){

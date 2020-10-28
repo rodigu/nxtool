@@ -2,13 +2,16 @@ var controller;
 var NETUSE;
 var TYPE;
 var NETWORK;
+var paragraph;
 
 function setup(){
+  paragraph = createInput("Press any key to get the command here");
+  paragraph.size(windowWidth);
   controller = new Control();
   NETUSE = 0;
   TYPE = 'NONE';
   NETWORK = new Network();
-  var canvas = createCanvas(windowWidth/2, 2*windowHeight/5);
+  var canvas = createCanvas(windowWidth/2, windowHeight/2);
   var x = (windowWidth - width) / 2;
   var y = (windowHeight - height) / 2;
   canvas.position(x, y);
@@ -16,7 +19,12 @@ function setup(){
   noStroke();
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth/2, windowHeight/2);
+}
+
 function mousePressed(){
+  if (mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) return;
   let counter;
   let overlay = false;
   if (controller.state == 1 && (mouseX - NETWORK.nodes[controller.node].x)**2 + (mouseY - NETWORK.nodes[controller.node].y)**2 < ((20)/2)**2){
@@ -64,6 +72,7 @@ function keyPressed(){
   }
   ans += "])";
   console.log(ans);
+  paragraph.value(ans);
 }
 
 function draw(network_ = NETWORK, type_ = 'NONE'){

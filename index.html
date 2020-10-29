@@ -5,6 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel = 'stylesheet' href = 'styles.css'>
   <script src="libraries/p5.js"></script>
   <script src="libraries/network.js"></script>
   <script src="visual.js"></script>
@@ -13,10 +14,15 @@
     body{padding: 0; margin: 0; background-color: white;}
   </style>
 </head>
-  <p><b>
+<div class = 'instructions'>
+<details>
+  <summary id = 'summary'> Instructions </summary>
+  <p id = 'instruction'>
   Click on empty space to create a new node<br>
   Click on a node to start creating an edge<br>
    - Left click/Space bar or click on the same node to cancel link creation<br>
    - Click on empty space to create a node linked to the initial one<br>
    - Click on another node to make a link between them</p>
+ </details>
+</div>
 </html>

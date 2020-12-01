@@ -4,9 +4,11 @@ var TYPE;
 var NETWORK;
 var paragraph;
 var timedrag;
+var undo_history;
 
 function setup(){
   frameRate(30);
+  undo_history = [];
   timedrag = 0;
   paragraph = createInput("Press any key to get the command here");
   paragraph.size(windowWidth);
@@ -50,6 +52,7 @@ function mousePressed(){
       // console.log(NETWORK.nodes[counter].x,controller.node,counter);
       if ((mouseX - NETWORK.nodes[counter].x)**2 + (mouseY - NETWORK.nodes[counter].y)**2 < ((20)/2)**2){
         NETWORK.addEdge(controller.node,counter);
+        undo_history.push('edge');
         // console.log(NETWORK.edges.length,controller.node,counter);
         controller.node = -1;
         controller.state = 0;
@@ -59,6 +62,7 @@ function mousePressed(){
     NETWORK.addEdge(NETWORK.nodes.length,controller.node);
     controller.node = -1;
     controller.state = 0;
+    undo_history.push('edge');
     return;
   }
   for (counter = 0; counter < NETWORK.nodes.length; counter++){
@@ -67,7 +71,10 @@ function mousePressed(){
       break;
     }
   }
-  if (!overlay) NETWORK.addNode(NETWORK.nodes.length,'',1,mouseX,mouseY);
+  if (!overlay) {
+    NETWORK.addNode(NETWORK.nodes.length,'',1,mouseX,mouseY);
+    undo_history.push('node');
+  }
 }
 
 function mouseReleased(){
@@ -84,6 +91,16 @@ function keyPressed(){
   if (key == ' '){
     controller.state = 0;
     return;
+  }
+  if (key == 'u'){
+    if (undo_history[undo_history.length - 1] == 'node'){
+      undo_history.pop();
+      NETWORK.nodes.pop();
+    }
+    else{
+      undo_history.pop();
+      NETWORK.edges.pop();
+    }
   }
   let ans = "GraphName.add_edges_from([";
   let counter;

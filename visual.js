@@ -1,7 +1,7 @@
 class Visualize{
   constructor(network_){
     this.network = network_;
-    this.size = 40;
+    this.size = 60;
   }
   drawNetwork(mouseCommand = [0, 0], type_ = 'NONE'){
     let counter;
@@ -29,7 +29,7 @@ class Visualize{
           this.network.nodes[counter].x = mouseX;
           this.network.nodes[counter].y = mouseY;
       }
-      let temp_size = 20;
+      let temp_size = 30;
       fill(255);
       strokeWeight(1);
       stroke(1);

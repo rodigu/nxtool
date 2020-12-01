@@ -3,6 +3,7 @@ var NETUSE;
 var TYPE;
 var NETWORK;
 var paragraph;
+var indv_nodes;
 var timedrag;
 var undo_history;
 
@@ -12,13 +13,15 @@ function setup(){
   timedrag = 0;
   paragraph = createInput("Press any key to get the command here");
   paragraph.size(windowWidth);
+  indv_nodes = createInput("The indvidual nodes will show up here");
+  indv_nodes.size(windowWidth);
   controller = new Control();
   NETUSE = 0;
   TYPE = 'NONE';
   NETWORK = new Network();
   var canvas = createCanvas(windowWidth/2, windowHeight/2);
   var x = (windowWidth - width) / 2;
-  var y = (windowHeight - height) / 2;
+  var y = (windowHeight/10) + (windowHeight - height) / 2;
   canvas.position(x, y);
   background(50);
   noStroke();
@@ -36,7 +39,7 @@ function mousePressed(){
   if (mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) return;
   let counter;
   let overlay = false;
-  if (controller.state == 1 && (mouseX - NETWORK.nodes[controller.node].x)**2 + (mouseY - NETWORK.nodes[controller.node].y)**2 < ((20)/2)**2){
+  if (controller.state == 1 && (mouseX - NETWORK.nodes[controller.node].x)**2 + (mouseY - NETWORK.nodes[controller.node].y)**2 < ((60)/2)**2){
     controller.state = 0;
     return;
   }
@@ -47,7 +50,7 @@ function mousePressed(){
         controller.node = counter;
       }
   // console.log(controller.state,NETWORK.nodes.length);
-  if (controller.state == 1 && (mouseX - NETWORK.nodes[controller.node].x)**2 + (mouseY - NETWORK.nodes[controller.node].y)**2 > ((20)/2)**2){
+  if (controller.state == 1 && (mouseX - NETWORK.nodes[controller.node].x)**2 + (mouseY - NETWORK.nodes[controller.node].y)**2 > ((60)/2)**2){
     for (counter = 0; counter < NETWORK.nodes.length; counter++){
       // console.log(NETWORK.nodes[counter].x,controller.node,counter);
       if ((mouseX - NETWORK.nodes[counter].x)**2 + (mouseY - NETWORK.nodes[counter].y)**2 < ((20)/2)**2){
@@ -66,7 +69,7 @@ function mousePressed(){
     return;
   }
   for (counter = 0; counter < NETWORK.nodes.length; counter++){
-    if ((mouseX - NETWORK.nodes[counter].x)**2 + (mouseY - NETWORK.nodes[counter].y)**2 < ((20)/2)**2){
+    if ((mouseX - NETWORK.nodes[counter].x)**2 + (mouseY - NETWORK.nodes[counter].y)**2 < ((70)/2)**2){
       overlay = true;
       break;
     }
@@ -102,15 +105,6 @@ function keyPressed(){
       NETWORK.edges.pop();
     }
   }
-  let ans = "GraphName.add_edges_from([";
-  let counter;
-  for (counter = 0; counter < NETWORK.edges.length; counter++){
-    ans += "(" + NETWORK.edges[counter].nodes[0].toString(10) + "," + NETWORK.edges[counter].nodes[1].toString(10) + ")";
-    if (counter < NETWORK.edges.length - 1) ans += ",";
-  }
-  ans += "])";
-  console.log(ans);
-  paragraph.value(ans);
 }
 
 function draw(network_ = NETWORK, type_ = 'NONE'){
@@ -130,4 +124,20 @@ function draw(network_ = NETWORK, type_ = 'NONE'){
     visual.drawNetwork(controller.mouse, "id");
   }
 
+  let ans = "GraphName.add_edges_from([";
+  let counter;
+  for (counter = 0; counter < NETWORK.edges.length; counter++){
+    ans += "(" + NETWORK.edges[counter].nodes[0].toString(10) + "," + NETWORK.edges[counter].nodes[1].toString(10) + ")";
+    if (counter < NETWORK.edges.length - 1) ans += ",";
+  }
+  ans += "])";
+  console.log(ans);
+  paragraph.value(ans);
+  let indv_ans = "GraphName.add_nodes_from([";
+  for (counter = 0; counter < NETWORK.nodes.length; counter++){
+    indv_ans += NETWORK.nodes[counter].id.toString(10);
+    if (counter < NETWORK.nodes.length - 1) indv_ans += ",";
+  }
+  indv_ans += "])";
+  indv_nodes.value(indv_ans);
 }

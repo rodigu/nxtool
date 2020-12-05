@@ -20,6 +20,15 @@ class Visualize{
       line(nodeA.x, nodeA.y, nodeB.x, nodeB.y);
       strokeWeight(2);
       stroke(0);
+      push();
+      let rotation;
+      translate((nodeA.x + nodeB.x)/2, (nodeA.y + nodeB.y)/2);
+      noStroke();
+      fill(200, 100, 100);
+      rotation = -atan2(nodeA.x - (nodeA.x + nodeB.x)/2, nodeA.y - (nodeA.y + nodeB.y)/2);
+      rotate(rotation);
+      triangle(0, -5, 5, 5, -5, 5);
+      pop();
     }
     for (counter = 0; counter < this.network.nodes.length; counter++){
       fill(this.network.nodes[counter].color[0], this.network.nodes[counter].color[1], this.network.nodes[counter].color[2]);
@@ -50,6 +59,7 @@ class Visualize{
         fill(255);
         circle(this.network.nodes[counter].x, this.network.nodes[counter].y, (temp_size));
       }
+
       fill(0);
       stroke(4);
       textSize(15);

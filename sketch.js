@@ -54,7 +54,7 @@ function mousePressed(){
     for (counter = 0; counter < NETWORK.nodes.length; counter++){
       // console.log(NETWORK.nodes[counter].x,controller.node,counter);
       if ((mouseX - NETWORK.nodes[counter].x)**2 + (mouseY - NETWORK.nodes[counter].y)**2 < ((20)/2)**2){
-        NETWORK.addEdge(controller.node,counter);
+        NETWORK.addEdge(controller.node,counter,1,1);
         undo_history.push('edge');
         // console.log(NETWORK.edges.length,controller.node,counter);
         controller.node = -1;
@@ -62,7 +62,7 @@ function mousePressed(){
         return;
       }
     }
-    NETWORK.addEdge(NETWORK.nodes.length,controller.node);
+    NETWORK.addEdge(controller.node,NETWORK.nodes.length,1,1);
     controller.node = -1;
     controller.state = 0;
     undo_history.push('edge');
@@ -131,7 +131,7 @@ function draw(network_ = NETWORK, type_ = 'NONE'){
     if (counter < NETWORK.edges.length - 1) ans += ",";
   }
   ans += "])";
-  console.log(ans);
+  // console.log(ans);
   paragraph.value(ans);
   let indv_ans = "GraphName.add_nodes_from([";
   for (counter = 0; counter < NETWORK.nodes.length; counter++){

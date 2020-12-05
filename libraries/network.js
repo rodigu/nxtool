@@ -1,4 +1,4 @@
-// Crt + Shift + [ collapses
+// Alt + Crt + Shift + [ collapses
 class Network{
   constructor(nodes_ = []){
     this.nodes = [];
@@ -188,6 +188,7 @@ class Network{
             weighted_net.getNode(initial_node).weight + weighted_net.getEdgeWeight(initial_node, node_neighbors[counter].id) < weighted_net.getNode(node_neighbors[counter].id).weight){
           weighted_net.setNodeWeight(node_neighbors[counter].id,
                                      weighted_net.getEdgeWeight(initial_node, node_neighbors[counter].id) + weighted_net.getNode(initial_node).weight);
+          weighted_net.getNode(node_neighbors[counter].id).previous_node = weighted_net.getNode(initial_node).id;
           get_path(node_neighbors[counter].id);
         }
       }
@@ -203,14 +204,7 @@ class Network{
     if (weighted_net.getNode(node2_).weight < 0 || weighted_net.getNode(node1_) == null || weighted_net.getNode(node2_) == null)
       return console.log(`There is no path between ${node1_} and ${node2_}`);
     while (end_node != node1_){
-      let neighbors = weighted_net.nodeNeighbors(end_node);
-      let counter;
-      let least = weighted_net.getNode(end_node).weight;
-      for (counter = 0; counter < neighbors.length; counter++)
-        if (least > neighbors[counter].weight){
-          least = neighbors[counter].weight;
-          end_node = neighbors[counter].id;
-        }
+      end_node = weighted_net.getNode(end_node).previous_node;
       path.push(end_node);
     }
     let inverted_path = [];

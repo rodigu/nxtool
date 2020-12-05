@@ -53,7 +53,7 @@ function mousePressed(){
   if (controller.state == 1 && (mouseX - NETWORK.nodes[controller.node].x)**2 + (mouseY - NETWORK.nodes[controller.node].y)**2 > ((60)/2)**2){
     for (counter = 0; counter < NETWORK.nodes.length; counter++){
       // console.log(NETWORK.nodes[counter].x,controller.node,counter);
-      if ((mouseX - NETWORK.nodes[counter].x)**2 + (mouseY - NETWORK.nodes[counter].y)**2 < ((20)/2)**2){
+      if ((mouseX - NETWORK.nodes[counter].x)**2 + (mouseY - NETWORK.nodes[counter].y)**2 < ((120)/2)**2){
         NETWORK.addEdge(controller.node,counter,1,1);
         undo_history.push('edge');
         // console.log(NETWORK.edges.length,controller.node,counter);

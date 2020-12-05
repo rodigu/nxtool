@@ -73,14 +73,6 @@ class Network{
         return true;
     return false;
   }
-  directedEdge(node1_, node2_){
-    let counter;
-    for (counter = 0; counter < this.edges.legth; counter++)
-      if ((this.edges[counter].nodes[0] == node1_ && this.edges[counter].nodes[1] == node2_) &&
-          (this.edges[counter].direction == 1))
-        return true;
-    return false;
-  }
   outNeighbors(id_){
     let answer = [];
     let counter;
@@ -267,7 +259,15 @@ Network.prototype.getNode = function (nodeId_){
 
 // Edge Functions
 Network.prototype.addEdge = function (node1_, node2_, weight_ = 1, direction_ = 0){
-  if (!this.undirectedEdge(node1_, node2_) && node1_ != node2_){
+  if (direction_ == 0 && !this.undirectedEdge(node1_, node2_) && node1_ != node2_){
+    this.edges.push(new Edge(node1_, node2_, weight_, direction_));
+    // if the nodes don't exist, they are added without names or weights
+    if (this.getNode(node1_) == null)
+      this.addNode(node1_);
+    if (this.getNode(node2_) == null)
+      this.addNode(node2_);
+  }
+  else if (direction_ == 1 && !this.directedEdge(node1_, node2_)){
     this.edges.push(new Edge(node1_, node2_, weight_, direction_));
     // if the nodes don't exist, they are added without names or weights
     if (this.getNode(node1_) == null)
@@ -282,7 +282,14 @@ Network.prototype.addEdges = function (edges_){
   for(counter = 0; counter < edges_.length; counter++)
     this.addEdge(edges_[counter][0], edges_[counter][1], 0, 1);
 }
-
+Network.prototype.directedEdge = function (node1_, node2_){
+  let counter;
+  for (counter = 0; counter < this.edges.length; counter++){
+    if (int(this.edges[counter].nodes[0]) == int(node1_) && int(this.edges[counter].nodes[1]) == int(node2_))
+      return true;
+    }
+  return false;
+}
 
 // Node and Edges classes
 class Node{

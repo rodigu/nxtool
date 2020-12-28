@@ -1,0 +1,27 @@
+#summary {
+  color: #2a4d69;
+  font-size: 120%;
+  text-align: center;
+  margin-left: 40%;
+  margin-right: 40%;
+  background-color: #adcbe3;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.instructions {
+  text-align: center;
+  padding: 5px;
+  background-color: #e2e8ed;
+
+}
+
+#instruction {
+  border: 2px solid #add8e6;
+  margin-left: 25%;
+  margin-right: 25%;
+  border-radius: 15px;
+  background-color: #adcbe3;
+  font-family: courier;
+
+}
